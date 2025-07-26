@@ -1,0 +1,40 @@
+<div 
+  [routerLink]="['/product', product.id]"
+  class="bg-white cursor-pointer dark:bg-gray-800 rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-all duration-300 h-full flex flex-col border border-gray-200 dark:border-gray-700 transform hover:-translate-y-1 group animate-fade-in"
+  [@cardAnimation]>
+  <div class="p-4 flex-grow relative">
+    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-100 dark:to-gray-900 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-t-lg"></div>
+    <img 
+      [src]="product.image" 
+      [alt]="product.title" 
+      class="w-full h-48 object-contain mb-4 p-2 bg-gray-50 dark:bg-gray-700 rounded transition-transform duration-500 group-hover:scale-105">
+  </div>
+  
+  <!-- Product Details -->
+  <div class="px-4 pb-2 flex-grow">
+    <h3 
+      role="button" 
+      class="text-lg font-semibold mb-2 line-clamp-2 text-gray-800 dark:text-gray-100 dark:hover:text-[rgb(110,231,183)] transition-colors duration-200"
+      >
+      {{ product.title }}
+    </h3>
+    <div class="flex items-center mb-3">
+      <div class="flex mr-2 animate-rating [animation-delay:100ms]">
+        @for (star of [1,2,3,4,5]; track star) {
+          @if (star <= product.rating.rate) {
+            <span class="text-lg text-yellow-400 dark:text-yellow-300 animate-pulse [animation-delay:{{star*100}}ms]">★</span>
+          } @else {
+            <span class="text-lg text-gray-300 dark:text-gray-500">★</span>
+          }
+        }
+      </div>
+      <span class="text-sm text-gray-600 dark:text-gray-400 animate-fade-in [animation-delay:200ms]">
+        ({{ product.rating.count }})
+      </span>
+      
+      <span class="text-xl font-bold text-[rgb(4,120,87)] dark:text-[rgb(110,231,183)] ms-auto animate-pulse-slow">
+        ${{ product.price }}
+      </span>
+    </div>
+  </div>
+</div>

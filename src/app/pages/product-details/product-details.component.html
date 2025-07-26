@@ -1,0 +1,106 @@
+<div class="container mx-auto px-4 py-8 transition-colors duration-300 dark:bg-gray-900 ">
+  <a routerLink="/products" role="button" 
+     class="inline-flex items-center gap-2 text-[rgb(4,120,87)] hover:text-[rgb(3,102,74)] dark:text-[rgb(110,231,183)] dark:hover:text-[rgb(52,211,153)] mb-6 transition-all duration-300 transform hover:-translate-x-1">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+      <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+    </svg>
+    Back to Products
+  </a>
+
+  @if (isLoading) {
+    <!--  Skeleton -->
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden animate-pulse">
+      <div class="md:flex">
+        <div class="md:w-1/2 p-6">
+          <div class="w-full h-96 bg-gray-300 dark:bg-gray-700 rounded-lg flex items-center justify-center">
+            <svg class="w-12 h-12 text-gray-200 dark:text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+              <path d="M18 0H2a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm-5.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm4.376 10.481A1 1 0 0 1 16 15H4a1 1 0 0 1-.895-1.447l3.5-7A1 1 0 0 1 7.468 6a.965.965 0 0 1 .9.5l2.775 4.757 1.546-1.887a1 1 0 0 1 1.618.1l2.541 4a1 1 0 0 1 .028 1.011Z"/>
+            </svg>
+          </div>
+        </div>
+        <div class="md:w-1/2 p-6 space-y-4">
+          <div class="h-8 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+          <div class="flex items-center space-x-4">
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-24"></div>
+            <div class="h-5 bg-gray-300 dark:bg-gray-700 rounded w-20"></div>
+          </div>
+          <div class="space-y-2">
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded"></div>
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-5/6"></div>
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-4/6"></div>
+            <div class="h-4 bg-gray-300 dark:bg-gray-700 rounded w-3/4"></div>
+          </div>
+          <div class="flex items-center justify-between pt-4">
+            <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded w-24"></div>
+            <div class="h-10 bg-gray-300 dark:bg-gray-700 rounded w-32"></div>
+          </div>
+          <div class="pt-4 space-y-2 border-t border-gray-200 dark:border-gray-700">
+            <div class="h-3 bg-gray-300 dark:bg-gray-700 rounded w-full"></div>
+            <div class="h-3 bg-gray-300 dark:bg-gray-700 rounded w-5/6"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- Error Message  -->
+  @if (error && !isLoading) {
+    <app-error-message 
+      message="Failed to load product details. Please try again later."
+      class="animate-shake">
+    </app-error-message>
+  }
+
+  <!--  Product Card  -->
+  @if (product && !isLoading && !error) {
+    <div class="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-all duration-500 transform hover:shadow-xl dark:shadow-gray-700/50"
+         [@cardAnimation]>
+      <div class="md:flex">
+        <div class="md:w-1/2 p-6 group relative">
+          <div class="absolute inset-0 bg-gradient-to-b from-transparent to-gray-100 dark:to-gray-900 opacity-0 group-hover:opacity-20 transition-opacity duration-500 rounded-lg"></div>
+          <img [src]="product.image" [alt]="product.title" 
+               class="w-full h-auto max-h-96 object-contain transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="md:w-1/2 p-6">
+          <h1 class="text-2xl font-bold mb-2 text-[rgb(4,120,87)] dark:text-[rgb(110,231,183)] animate-fade-in">
+            {{ product.title }}
+          </h1>
+          <div class="flex items-center mb-4 animate-fade-in [animation-delay:100ms]">
+            <div class="flex items-center">
+              <span class="text-yellow-400 dark:text-yellow-300 animate-pulse [animation-delay:200ms]">
+                <span class="inline-block mr-1">★</span>
+                {{ product.rating.rate }}/5 
+                <span class="text-gray-500 dark:text-gray-400 text-sm ml-1">({{ product.rating.count }} reviews)</span>
+              </span>
+            </div>
+            <span class="ml-4 bg-[rgba(4,120,87,0.1)] dark:bg-[rgba(4,120,87,0.3)] text-[rgb(4,120,87)] dark:text-[rgb(110,231,183)] text-xs font-semibold px-2.5 py-0.5 rounded animate-bounce-in [animation-delay:150ms]">
+              {{ product.category }}
+            </span>
+          </div>
+          <p class="text-gray-700 dark:text-gray-300 mb-4 animate-fade-in [animation-delay:200ms]">
+            {{ product.description }}
+          </p>
+          <div class="flex items-center justify-between animate-fade-in [animation-delay:300ms]">
+            <span class="text-3xl font-bold text-[rgb(4,120,87)] dark:text-[rgb(110,231,183)] animate-pulse-slow">
+              ${{ product.price }}
+            </span>
+          </div>
+          <div class="mt-6 pt-4 border-t border-gray-200 dark:border-gray-700 animate-fade-in [animation-delay:400ms]">
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 mb-2 animate-slide-in [animation-delay:450ms]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+              </svg>
+              Free shipping on orders over $50
+            </div>
+            <div class="flex items-center text-sm text-gray-500 dark:text-gray-400 animate-slide-in [animation-delay:500ms]">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Usually ships within 2-3 business days
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  }
+</div>
