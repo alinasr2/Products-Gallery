@@ -26,11 +26,12 @@ export class ProductDetailsComponent {
   product: Product  = {} as Product;
   isLoading = true;
   error = false;
+  productId:any;
 
   ngOnInit() {
-    const productId = this.route.snapshot.paramMap.get('id');
-    if (productId) {
-      this.productService.getProductById(+productId).subscribe({
+    this.getId()
+    if (this.productId) {
+      this.productService.getProductById(this.productId).subscribe({
         next: (product) => {
           this.product = product;
           this.isLoading = false;
@@ -41,5 +42,12 @@ export class ProductDetailsComponent {
         }
       });
     }
+  }
+  getId(){
+    this.route.params.subscribe({
+      next:(res)=>{
+        this.productId = res['id'];
+      }
+    })
   }
 }
