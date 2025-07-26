@@ -44,9 +44,9 @@ export class ProductDetailsComponent {
     }
   }
   getId(){
-    this.route.params.subscribe({
+    this.route.paramMap.subscribe({
       next:(res)=>{
-        this.productId = res['id'];
+        this.productId = res.get('id');
       }
     })
   }
